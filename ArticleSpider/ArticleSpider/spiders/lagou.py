@@ -43,7 +43,7 @@ class LagouSpider(CrawlSpider):
         item_loader.add_css("job_addr", ".work_addr")
         item_loader.add_css("company_name", "#job_company dt a img::attr(alt)")
         item_loader.add_css("company_url", "#job_company dt a::attr(href)")
-        item_loader.add_css("crawl_time", datetime.now())
+        item_loader.add_value("crawl_time", datetime.now())
 
         job_item = item_loader.load_item()
 
