@@ -122,8 +122,8 @@ class ZhihuQuestionItem(scrapy.Item):
         insert_sql = """
             insert into zhihu_question(zhihu_id, topics, url, tltle, content, answer_num, comments_num,
             watch_user_num, click_num, crawl_time
-            )VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) 
-            ON DUPLICATE KEY UPDATE content=VALUES(content), answer_num=VALUES(answer_num), 
+            )VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE content=VALUES(content), answer_num=VALUES(answer_num),
             comments_num=VALUES(comments_num), watch_user_num=VALUES(watch_user_num), click_num=VALUES(click_num)
         """
 
