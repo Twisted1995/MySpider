@@ -158,7 +158,7 @@ class ZhihuAnswerItem(scrapy.Item):
 
     def get_insert_sql(self):
         insert_sql = """
-        insert into zhihu_answer(zhihu_id, url, question_id, author_id, content, parise_num. comments_num, 
+        insert into zhihu_answer(zhihu_id, url, question_id, author_id, content, parise_num. comments_num,
         create_time, update_time, crawl_time)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE content=VALUES(content),
         comments_num=VALUES(comments_num), parise_num=VALUES(parise_num), update_time=VALUES(update_time)
@@ -225,8 +225,8 @@ class LagouJobItem(scrapy.Item):
         insert_sql = """
             insert into lagou_job(title, url, url_object_id, salary, job_city, work_years, degree_need,
             job_type, publish_time, job_advantage, job_desc, job_addr, company_name, company_url,
-            tags, crawl_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) 
-            ON DUPLICATE KEY UPDATE salary=VALUES(salary), job_desc=VALUES(job_desc),job_addr=VALUES(job_addr) 
+            tags, crawl_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE salary=VALUES(salary), job_desc=VALUES(job_desc),job_addr=VALUES(job_addr)
         """
         params = (
             self["title"], self["url"], self["salary"], self["url_object_id"], self["job_city"], self["work_years"],
