@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from datatime import datetime
+from datetime import datetime
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from items import LagouJobItem, LagouJobItemLoader
-from ArticleSpider.utils import get_md5
+from ArticleSpider.utils.common import get_md5
 
 
 class LagouSpider(CrawlSpider):
