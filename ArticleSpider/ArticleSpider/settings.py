@@ -80,6 +80,9 @@ IMAGES_STORE = os.path.join(project_dir, 'images')
 BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'ArticleSpider'))
 
+USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0"
+
+RANDOM_UA_TYPE = "random"
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 # AUTOTHROTTLE_ENABLED = True
