@@ -11,6 +11,7 @@ from tools.crawl_xici_ip import GetIP
 from selenium import webdriver
 import time
 from scrapy.http import HtmlResponse
+from pyvirtualdisplay import Display
 
 
 class ArticlespiderSpiderMiddleware(object):
@@ -101,3 +102,10 @@ class JSPageMiddleware(object):
             print("访问：{0}".format(request.url))
 
             return HtmlResponse(url=self.browser.current_url, body=self.browser.page_source, encoding="utf-8")
+
+
+display = Display(visible=0, size=(800, 600))
+display.start()
+
+browser = webdriver.Chrome()
+browser.get()
