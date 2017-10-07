@@ -9,12 +9,26 @@ from urllib import parse
 from ArticleSpider.items import JobBoleArticleItem, ArticleItemLoader
 
 from ArticleSpider.utils.common import get_md5
+from selenium import webdriver
+from scrapy.xlib.pydispatch import dispatcher
+from scrapy import signals
 
 
 class JobboleSpider(scrapy.Spider):
     name = 'jobbole'
     allowed_domains = ['blog.jobbole.com']
     start_urls = ['http://blog.jobbole.com/']
+
+    def __init__(self):
+        self.browser = webdriver.Chorme(executable_path="**********")
+        super(JobboleSpider, self).__init__()
+        dispatcher.connect(self.spider_closed, signals.spider_closed)
+
+    def spider_closed(self, spider):
+        # 当爬虫退出的时候关闭chorme
+        print("spider closed")
+        self.browser.quit()
+
 
     def parse(self, response):
         """

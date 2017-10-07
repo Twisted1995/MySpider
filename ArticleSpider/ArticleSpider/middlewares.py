@@ -8,6 +8,9 @@
 from scrapy import signals
 from fake_useragent import UserAgent
 from tools.crawl_xici_ip import GetIP
+from selenium import webdriver
+import time
+from scrapy.http import HtmlResponse
 
 
 class ArticlespiderSpiderMiddleware(object):
@@ -81,3 +84,20 @@ class RndomProxyMiddleware(object):
     def process_request(self, request, spider):
         get_ip = GetIP()
         request.meta["proxy"] = get_ip.get_random_ip()
+
+
+class JSPageMiddleware(object):
+
+    def __init__(self):
+        self.browser = webdriver.Chrome(executable_path="********")
+        super(JSPageMiddleware, self).__init__()
+
+    # 通过chorme请求动态网页
+    def process_request(self, request, spider):
+        if spider.name == "jobbole":
+           # browser = webdriver.Chrome(executable_path="*********")
+            self.browser.get(request.url)
+            time.sleep(3)
+            print("访问：{0}".format(request.url))
+
+            return HtmlResponse(url=self.browser.current_url, body=self.browser.page_source, encoding="utf-8")

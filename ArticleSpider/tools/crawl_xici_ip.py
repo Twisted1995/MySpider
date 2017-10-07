@@ -88,6 +88,7 @@ class GetIP(object):
             else:
                 return self.get_random_ip()
 
+
 if __name__ == "__main__":
     get_ip = GetIP()
     get_ip.get_random_ip()
