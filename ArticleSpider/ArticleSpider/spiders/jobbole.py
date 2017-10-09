@@ -29,6 +29,10 @@ class JobboleSpider(scrapy.Spider):
         print("spider closed")
         self.browser.quit()
 
+    handle_httpstatus_list = [404]
+
+    def __init__(self):
+        self.fail_urls = []
 
     def parse(self, response):
         """
@@ -39,6 +43,10 @@ class JobboleSpider(scrapy.Spider):
         """
 
         # 解析列表页中的所有文章url并交给scrapy下载后进行解析
+        if response.status == 404:
+            self.fail_urls.append(response.url)
+            self.crawler.stats.inc_value("failed_url")
+
         post_nodes = response.css(".floated-thumb .post-thumb a")
         for post_node in post_nodes:
             image_url = post_node.css("image::attr(src)").extract_first("")
