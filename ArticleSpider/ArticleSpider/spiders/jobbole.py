@@ -34,6 +34,12 @@ class JobboleSpider(scrapy.Spider):
     def __init__(self):
         self.fail_urls = []
 
+    def handle_spider_closed(self):
+        self.crawler.stats.set_value("failed_urls", ",".join(self.fail_urls))
+        pass
+
+    dispatcher.connect(handle_spider_closed, signals.spider_closed)
+
     def parse(self, response):
         """
         1.获取文章列表页中的文章url并交给scrapy下载后进行更新
