@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import scrapy
 from datetime import datetime
+import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from items import LagouJobItem, LagouJobItemLoader
