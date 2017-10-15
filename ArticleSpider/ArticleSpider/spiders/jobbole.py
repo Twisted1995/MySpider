@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 import scrapy
-# import re
-# import datetime
 from urllib import parse
-# from scrapy.loader import ItemLoader
 
 from ArticleSpider.items import JobBoleArticleItem, ArticleItemLoader
 
 from ArticleSpider.utils.common import get_md5
 from selenium import webdriver
-from scrapy.xlib.pydispatch import dispatcher
+
 from scrapy import signals
 from scrapy.http import Request
+from scrapy.xlib.pydispatch import dispatcher
 
 
 class JobboleSpider(scrapy.Spider):
