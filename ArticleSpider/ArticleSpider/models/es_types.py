@@ -6,10 +6,21 @@ from elasticsearch_dsl import DocType, Date, Nested, Boolean, analyzer, InnerObj
 
 
 from elasticsearch_dsl.connections import connections
+from elasticsearch_dsl.analysis import CustomAnalysis as _CustomAnalysis
+
 connections.create_connection(hosts=["localhost"])
+
+
+class CustomAnalyzer(_CustomAnalysis):
+    def ge_analysis_definition(self):
+        return {}
+
+ik_analyzer = CustomAnalyzer("ik_max_word", filter=["lowercase"])
+
 
 class ArticleType(DocType):
     # 伯乐在线文章类型
+    suggest = Completion(analyzer=ik_analyzer)
     title = Text(analyzer="ik_max_word")
     create_date = Date()
     url = Keyword()

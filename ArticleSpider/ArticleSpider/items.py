@@ -8,13 +8,18 @@
 import scrapy
 import datetime
 import re
+
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import MapCompose, TakeFirst, Join
+
 from settings import SQL_DATE_FORMAT, SQL_DATETIME_FORMAT
 from w3lib.html import remove_tags
 from models.es_types import ArticleType
 
 from utils.common import extract_num
+
+from elasticsearch_dsl.connections import connections
+es = connections.create_connection(ArticleType._doc_type.using)
 
 
 class ArticlespiderItem(scrapy.Item):
@@ -56,6 +61,26 @@ def remove_comment_tags(value):
 
 def return_value(value):
     return value
+
+
+def gen_suggests(index, info_tuple):
+    # 根据字符串生成搜索建议数组
+    used_words =set()
+    suggests = []
+    for text, weight in info_tuple:
+        if text:
+            # 调用es的analyze接口分析字符串
+            words = es.indices.analyze(index=index, analyzer="ik_max_word", params={'filter':["lowercase"]}, body=text)
+            analyzed_words = set([r["tolen"] for r in words if len(r["token"])>1])
+            new_words = analyzed_words - used_words
+        else:
+            new_words = set()
+
+        if new_words:
+            suggests.append("input": list(new_words), "weight": weight)
+
+    return suggests
+
 
 
 class ArticleItemLoader(ItemLoader):
@@ -118,6 +143,8 @@ class JobBoleArticleItem(scrapy.Item):
         article.url = self['url']
         article.tags = self['tags']
         article.meta.id = self['url_object_id']
+
+        article.suggest = gen_suggests(ArticleType._doc_type.index, ((article.title, 10), (article.tags, 7)))
 
         article.save()
 
