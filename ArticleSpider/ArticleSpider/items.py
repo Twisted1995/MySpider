@@ -8,6 +8,7 @@
 import scrapy
 import datetime
 import re
+import redis
 
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import MapCompose, TakeFirst, Join
@@ -20,6 +21,8 @@ from utils.common import extract_num
 
 from elasticsearch_dsl.connections import connections
 es = connections.create_connection(ArticleType._doc_type.using)
+
+redis_cli = redis.StrictRedis(host='localhost')
 
 
 class ArticlespiderItem(scrapy.Item):
@@ -147,6 +150,8 @@ class JobBoleArticleItem(scrapy.Item):
         article.suggest = gen_suggests(ArticleType._doc_type.index, ((article.title, 10), (article.tags, 7)))
 
         article.save()
+
+        redis_cli.incr("jobbole_count")
 
         return
 
