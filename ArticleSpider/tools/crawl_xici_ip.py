@@ -8,7 +8,7 @@ cursor = conn.cursor()
 
 
 def crawl_ips():
-    # 爬取西刺高匿代理IP
+    # 爬取代理IP
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"}
     for i in range(1568):
@@ -73,7 +73,6 @@ class GetIP(object):
                 return False
 
     def get_random_ip(self):
-        # 从数据库中国随机获取一个ip
         random_sql = """
             SELECT ip, port FROM proxy_ip ORDER BY RAND() LIMIT 1
         """
